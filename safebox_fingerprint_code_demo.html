@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SafeBox Recipient Verification</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#182033;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;background:#fff}.top{padding:22px 20px;border-bottom:1px solid #e5e9f0}.brand{font-size:23px;font-weight:800}.sub{font-size:12px;color:#697386;margin-top:3px}.content{padding:22px 20px 40px}.screen{display:none}.screen.active{display:block}h1{font-size:28px;margin:0 0 10px}h2{font-size:19px;margin:0 0 8px}p{line-height:1.5;color:#5d687a}.card{border:1px solid #e1e6ee;border-radius:18px;padding:18px;margin:16px 0;box-shadow:0 5px 20px rgba(20,30,50,.05)}label{display:block;font-weight:700;font-size:14px;margin:14px 0 7px}input{width:100%;padding:14px;border:1px solid #cbd3df;border-radius:12px;font-size:17px}button,.btn{width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:750;display:block;text-align:center;text-decoration:none;cursor:pointer}.primary{background:#182033;color:#fff}.light{background:#edf1f6;color:#182033;margin-top:10px}.video{background:#eaf1ff;color:#2454c6}.warning{font-size:12px;background:#fff8e6;border:1px solid #efdfab;border-radius:12px;padding:11px;color:#67561b}.progress{height:5px;background:#e9edf3;border-radius:9px;margin-top:13px}.bar{height:100%;background:#182033;width:20%;border-radius:9px}.finger-wrap{text-align:center;padding:8px}.finger{width:130px;height:160px;margin:18px auto;position:relative;border:5px solid #aeb8c7;border-radius:55% 55% 48% 48%}.finger:before{content:"";position:absolute;left:19px;right:19px;top:18px;bottom:16px;border:4px solid #778397;border-radius:50%}.finger:after{content:"";position:absolute;left:42px;right:42px;top:48px;bottom:37px;border:4px solid #778397;border-radius:50%}.status{font-weight:750;margin:8px}.spinner{display:none;margin:12px auto;width:25px;height:25px;border:3px solid #d8dee8;border-top-color:#182033;border-radius:50%;animation:r .8s linear infinite}@keyframes r{to{transform:rotate(360deg)}}.check{font-size:58px;text-align:center;margin:10px}.locked{text-align:center;font-size:31px;font-weight:850}.code{letter-spacing:8px;text-align:center}.small{font-size:12px;color:#788397}.center{text-align:center}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand">SafeBox</div>
+  <div class="sub">Recipient verification • School project demonstration</div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+</header>
+
+<main class="content">
+
+<section class="screen active" id="s1">
+<h1>Recipient verification</h1>
+<p>Review the package proof, then verify the intended recipient before setting up SafeBox security.</p>
+<div class="card">
+<h2>Package video proof</h2>
+<p class="small">Add your own 15–20 second video later by naming it <b>package-proof.mp4</b> and placing it beside this HTML file.</p>
+<a class="btn video" href="package-proof.mp4">▶ View package video proof</a>
+</div>
+<div class="card">
+<h2>Identity verification</h2>
+<div class="warning">Demo only. Do not enter real phone numbers or other sensitive information.</div>
+<label>Recipient name</label>
+<input id="name" placeholder="Demo recipient name" autocomplete="off">
+<label>Last 4 digits of phone</label>
+<input id="last4" maxlength="4" inputmode="numeric" placeholder="0000" autocomplete="off">
+<button class="primary" onclick="identity()">Continue</button>
+</div>
+</section>
+
+<section class="screen" id="s2">
+<h1>Fingerprint registration</h1>
+<p>Register the recipient's fingerprint for this <b>simulation</b>. A real fingerprint sensor is not accessed by this webpage.</p>
+<div class="card finger-wrap">
+<div class="finger"></div>
+<div class="status" id="fstatus">Ready to register</div>
+<div class="spinner" id="spin"></div>
+<button class="primary" id="fingerBtn" onclick="fingerprint()">Register fingerprint</button>
+<p class="small">No biometric data is captured or stored.</p>
+</div>
+</section>
+
+<section class="screen" id="s3">
+<h1>Set up SafeBox code</h1>
+<p>Create a six-digit numeric code for this demonstration.</p>
+<div class="card">
+<div class="warning">Use a fictional demo code. Do not use your real PIN or another important security code.</div>
+<label>SafeBox code</label>
+<input id="code1" class="code" maxlength="6" inputmode="numeric" type="password" placeholder="••••••">
+<label>Confirm SafeBox code</label>
+<input id="code2" class="code" maxlength="6" inputmode="numeric" type="password" placeholder="••••••">
+<button class="primary" onclick="setCode()">Set SafeBox code</button>
+</div>
+</section>
+
+<section class="screen" id="s4">
+<div class="card center">
+<div class="check">✓</div>
+<div class="locked">SAFEBOX SECURED</div>
+<p>Recipient verification, fingerprint enrollment simulation, and SafeBox code setup are complete.</p>
+<div class="warning">This is a school-project demonstration. The webpage does not actually store biometric data, transmit a PIN, or control a physical lock.</div>
+<button class="light" onclick="show(1)">Restart demonstration</button>
+</div>
+</section>
+
+</main>
+</div>
+
+<script>
+function show(n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');document.getElementById('bar').style.width=(n*25)+'%';scrollTo(0,0)}
+function identity(){let n=document.getElementById('name').value.trim(),d=document.getElementById('last4').value.trim();if(!n||!/^\d{4}$/.test(d)){alert('Enter a demo name and exactly four numeric digits.');return}show(2)}
+function fingerprint(){let b=document.getElementById('fingerBtn'),s=document.getElementById('fstatus'),sp=document.getElementById('spin');b.disabled=true;sp.style.display='block';s.textContent='Registering fingerprint…';setTimeout(()=>{sp.style.display='none';s.textContent='Fingerprint registered (demo) ✓';b.textContent='Continue to SafeBox code';b.disabled=false;b.onclick=()=>show(3)},1800)}
+function setCode(){let a=document.getElementById('code1').value,b=document.getElementById('code2').value;if(!/^\d{6}$/.test(a)||a!==b){alert('Enter matching six-digit numeric codes.');return}show(4)}
+</script>
+</body>
+</html>
